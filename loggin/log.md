@@ -49,3 +49,47 @@ curl -X POST http://localhost:8090/boost
 ```
 worked, the grafana button did not activate the boost
 
+enabled 
+```
+disable_sanitize_html = true
+```
+
+and with 
+
+grafana text field and  
+
+```
+<div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start;">
+  <button 
+    style="font-size: 18px; padding: 12px 20px; background-color: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;"
+    onclick="fetch('http://192.168.0.106:8090/boost', { method: 'POST' })
+      .then(res => {
+        if (res.ok) {
+          alert('✅ Boost activated!');
+        } else {
+          alert('❌ Boost activation failed.');
+        }
+      }).catch(err => alert('⚠️ Network error: ' + err))">
+    🚀 Boost Charging
+  </button>
+
+  <button 
+    style="font-size: 18px; padding: 12px 20px; background-color: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;"
+    onclick="fetch('http://192.168.0.106:8090/stop-boost', { method: 'POST' })
+      .then(res => {
+        if (res.ok) {
+          alert('🛑 Boost stopped!');
+        } else {
+          alert('❌ Failed to stop boost.');
+        }
+      }).catch(err => alert('⚠️ Network error: ' + err))">
+    🛑 Stop Boost
+  </button>
+</div>
+```
+i was able to add button.
+
+
+
+
+
