@@ -90,6 +90,90 @@ grafana text field and
 i was able to add button.
 
 
+### making acces from anywhere
+
+
+
+#### Install ngrok:
+```
+curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
+echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
+sudo apt update && sudo apt install ngrok
+```
+
+
+Create a free account at https://dashboard.ngrok.com and get your auth token.
+
+Authenticate:
+
+```
+ngrok config add-authtoken <your_token_here>
+```
+
+Start the tunnel:
+```
+ngrok http 3000
+```
+
+You’ll get a public HTTPS URL like:
+```
+https://f9a2-203-0-113-42.ngrok.io
+```
+now you can just paste this and use it normally from anywhere
+
+
+
+#### configure ngix, to do local loopback
+
+```
+sudo nano /etc/nginx/sites-available/grafana_boost
+```
+
+and paste
+
+```
+sudo nano /etc/nginx/sites-available/grafana_boost
+
+
+```
+and reload 
+
+```
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+
+##### download and configure vnc for running multiple at once
+
+VNC (Recommended for Raspberry Pi OS Desktop)
+Raspberry Pi OS (with desktop) comes with RealVNC Server built-in.
+
+✅ Enable it:
+
+sudo raspi-config
+Then:
+
+Go to Interface Options
+
+Enable VNC
+
+✅ On your PC:
+Install RealVNC Viewer
+
+Connect to your Pi's IP (e.g. 192.168.0.106)
+
+Login with your Pi's username and password
+
+
+
+
+### tried to pull data from car
+
+client wanted to be able to make that car only charges to 80% soc.
+
+smartcar was commercial, needed license.
+
+tried using psa_car_controller
 
 
 

@@ -28,6 +28,16 @@ def control_charging():
         print("❌ No data received.")
         return
     
+
+    if data["P_PV"] is None:
+        data["P_PV"] = 0  # Ensure PV power is not None
+    if data["P_Grid"] is None:
+        data["P_Grid"] = 0
+    if data["P_Load"] is None:
+        data["P_Load"] = 0
+    if data["SOC"] is None:
+        data["SOC"] = 0
+    
     
     # In control_charging():
     try:
@@ -52,36 +62,42 @@ def control_charging():
 
 
 
+
+
     print(f"🔍 PV: {pv} | Grid: {grid} | Load: {load} | SOC: {soc}% | Sun: {sun_hours}h")
+    try:
+        if is_boost_active():
+            print("🚀 Boost mode active – skipping control logic")
+            return
 
-    if is_boost_active():
-        print("🚀 Boost mode active – skipping control logic")
-        return
+        charging_power = (CHARGING_CURRENT / 1000) * CHARGING_VOLTAGE * PHASES
+        if charging== True:
+            power_budget = pv + load- charging_power
+        else:
+            power_budget = pv + load
 
-    charging_power = (CHARGING_CURRENT / 1000) * CHARGING_VOLTAGE * PHASES
-    if charging== True:
-        power_budget = pv + load- charging_power
-    else:
-        power_budget = pv + load
-
-    if soc < 50:
-        print("🛑 SOC < 30% – disabling charging")
+        if soc < 50:
+            print("🛑 SOC < 30% – disabling charging")
+            send_udp_message_and_receive_response("ena 0")
+            charging = False
+        elif soc > 50:
+            if sun_hours < 16:
+                print("🛑 Not enough sun despite SOC > 50% – disabling charging")
+                send_udp_message_and_receive_response("ena 0")
+                charging = False
+            elif power_budget > charging_power:
+                print("✅ Enabling charging – enough PV available")
+                send_udp_message_and_receive_response("ena 1")
+                charging = True
+            else:
+                print("🛑 Not enough PV – disabling charging")
+                send_udp_message_and_receive_response("ena 0")
+                charging = False
+    except Exception as e:
+        print(f"❌ Error in control logic: {e}")
         send_udp_message_and_receive_response("ena 0")
         charging = False
-    elif soc > 50:
-        if sun_hours < 16:
-            print("🛑 Not enough sun despite SOC > 50% – disabling charging")
-            send_udp_message_and_receive_response("ena 0")
-            charging = False
-        elif power_budget > charging_power:
-            print("✅ Enabling charging – enough PV available")
-            send_udp_message_and_receive_response("ena 1")
-            charging = True
-        else:
-            print("🛑 Not enough PV – disabling charging")
-            send_udp_message_and_receive_response("ena 0")
-            charging = False
-
+        return
 
 
 if __name__ == "__main__":
