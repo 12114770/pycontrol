@@ -141,7 +141,11 @@ and reload
 ```
 sudo nginx -t && sudo systemctl reload nginx
 ```
+ now restart ngrok with unified access
 
+ ```
+ ngrok http 80
+ ```
 
 ##### download and configure vnc for running multiple at once
 
