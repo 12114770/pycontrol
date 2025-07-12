@@ -147,27 +147,26 @@ sudo nginx -t && sudo systemctl reload nginx
  ngrok http 80
  ```
 
-##### download and configure vnc for running multiple at once
+##### use lxc to run mutliple instances at once 
 
-VNC (Recommended for Raspberry Pi OS Desktop)
-Raspberry Pi OS (with desktop) comes with RealVNC Server built-in.
 
-✅ Enable it:
+```
+sudo apt update
+sudo apt install lxd -y
+```
 
-sudo raspi-config
-Then:
+```
+sudo lxd init
+```
 
-Go to Interface Options
 
-Enable VNC
 
-✅ On your PC:
-Install RealVNC Viewer
 
-Connect to your Pi's IP (e.g. 192.168.0.106)
 
-Login with your Pi's username and password
 
+```
+
+```
 
 
 
