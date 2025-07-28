@@ -159,14 +159,81 @@ sudo apt install lxd -y
 sudo lxd init
 ```
 
+    Use these answers:
 
+    Clustering: no
+
+    Storage: yes, backend: dir
+
+    Bridge: yes, name: lxdbr0
+
+    IPv4: auto, IPv6: none
+
+    Remote access: no
 
 
 
 
 ```
+lxc launch ubuntu:22.04 haus1
+```
+
+
+
 
 ```
+lxc file push -r ~/pycontrol haus1/home/ubuntu/
+
+```
+
+```
+lxc exec haus1 -- bash
+
+```
+
+```
+apt update
+apt install -y python3 python3-pip wireguard influxdb grafana
+```
+
+```
+lxc launch ubuntu:22.04 haus1
+```
+
+then enter the container via 
+
+```
+lxc exec haus1 -- bash
+```
+
+run setup script then when the influxdb command prompt opens do 
+```
+CREATE DATABASE fronius;
+SHOW DATABASES;
+exit
+```
+
+back in the lxc container 
+
+```
+sudo nano /etc/hosts
+```
+
+and paste the line 
+```
+127.0.1.1   haus1
+```
+then restart nginx
+
+```
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+on host forward the port 
+```
+lxc config device add haus1 nginxport80 proxy listen=tcp:0.0.0.0:80 connect=tcp:127.0.0.1:80
+```
+
 
 
 

@@ -21,7 +21,7 @@ charging = False
 
 
 def control_charging():
-    global boost_active_until, charging
+    global boost_active_until, charging, temp_until_ts
 
     data = get_fronius_powerflow_data()
     if not data:
@@ -45,13 +45,26 @@ def control_charging():
             boost_until_ts = int(f.read().strip())
     except (FileNotFoundError, ValueError):
         boost_until_ts = 0
+    
+    try:
+        with open("/tmp/temporary_charge_until", "r") as f:
+            temp_until_ts = int(f.read().strip())
+    except (FileNotFoundError, ValueError):
+        temp_until_ts = 0
+    
+
+
+
 
     
     now = time.time()
     remaining = max(0, int(boost_until_ts - now))
-
     data["boost_remaining"] = remaining  # in seconds
     print(f"Boost remaining: {remaining} seconds")
+    temp_remaining = max(0, int(temp_until_ts - now))
+    data["temp_remaining"] = temp_remaining
+    print(f"Temporary charge remaining: {temp_remaining} seconds")
+    
     push_to_influxdb(data)
 
     pv = data["P_PV"]
@@ -68,6 +81,10 @@ def control_charging():
     try:
         if is_boost_active():
             print("🚀 Boost mode active – skipping control logic")
+            return
+        if temp_remaining> 0:
+            print("⚡ Temporary charge mode active – skipping logic")
+            charging = True
             return
 
         charging_power = (CHARGING_CURRENT / 1000) * CHARGING_VOLTAGE * PHASES

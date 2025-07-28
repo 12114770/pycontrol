@@ -1,0 +1,35 @@
+server {
+    listen 80;
+    server_name _;
+
+    location /temporary-charge {
+        proxy_pass http://localhost:8090/temporary-charge;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    location /stop-temporary-charge {
+        proxy_pass http://localhost:8090/stop-temporary-charge;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    location /boost {
+        proxy_pass http://localhost:8090/boost;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    location /stop-boost {
+        proxy_pass http://localhost:8090/stop-boost;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    location / {
+        proxy_pass http://localhost:3000/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
