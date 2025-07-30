@@ -17,7 +17,7 @@ CHECK_INTERVAL = 1 # seconds
 
 boost_active_until = None
 charging = False
-chargin_current = 6000  # default current in mA
+charging_current = 6000  # default current in mA
 
 
 def control_charging():

@@ -3,7 +3,7 @@
 cd "$(dirname "$0")"  # move to script directory
 
 # Activate virtual environment
-source ./ctrlvenv/bin/activate
+source ../ctrlvenv/bin/activate
 
 echo "▶️ Starting main.py..."
 nohup python3 main.py > main.log 2>&1 &

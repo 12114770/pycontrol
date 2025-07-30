@@ -5,7 +5,7 @@ import requests
 
 from fastapi.middleware.cors import CORSMiddleware
 SERVER_IP = "localhost"
-VIN = 
+VIN = "change this"
 app = FastAPI()
 
 app.add_middleware(
@@ -62,6 +62,7 @@ def set_charge_limit_80():
             "status": r.status_code
         }
     except Exception as e:
+        print("wrong Vin")
         return {"error": str(e)}
 
 
@@ -76,4 +77,5 @@ def set_charge_limit_100():
             "status": r.status_code
         }
     except Exception as e:
+        print("wrong Vin")
         return {"error": str(e)}
