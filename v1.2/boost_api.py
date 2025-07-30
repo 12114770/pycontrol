@@ -5,6 +5,7 @@ import requests
 
 from fastapi.middleware.cors import CORSMiddleware
 SERVER_IP = "localhost"
+VIN = 
 app = FastAPI()
 
 app.add_middleware(
@@ -23,6 +24,7 @@ def activate_boost():
     with open(BOOST_FILE, "w") as f:
         f.write(str(int(boost_until.timestamp())))
     send_udp_message_and_receive_response("curr 16000")
+    send_udp_message_and_receive_response("")
     return {"message": "Boost activated", "until": boost_until.isoformat()}
 
 

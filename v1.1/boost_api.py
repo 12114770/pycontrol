@@ -22,6 +22,7 @@ def activate_boost():
     with open(BOOST_FILE, "w") as f:
         f.write(str(int(boost_until.timestamp())))
     send_udp_message_and_receive_response("curr 16000")
+    send_udp_message_and_receive_response("ena 1")
     return {"message": "Boost activated", "until": boost_until.isoformat()}
 
 
@@ -39,6 +40,7 @@ def temporary_charge():
         f.write(str(int(until.timestamp())))
     if not is_boost_active():
         send_udp_message_and_receive_response("curr 6000")
+    send_udp_message_and_receive_response("ena 1")
     return {"message": "Temporary charging at 6000 started", "until": until.isoformat()}
 
 @app.post("/stop-temporary-charge")
