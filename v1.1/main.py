@@ -10,18 +10,19 @@ from utils import   (
 from datetime import datetime, timedelta
 import time
 
-CHARGING_CURRENT = 6000
+
 CHARGING_VOLTAGE = 230
 PHASES = 3
 CHECK_INTERVAL = 1 # seconds
 
 boost_active_until = None
 charging = False
-
+chargin_current = 6000  # default current in mA
 
 
 def control_charging():
-    global boost_active_until, charging, temp_until_ts
+    
+    global boost_active_until, charging, temp_until_ts, charging_current
 
     data = get_fronius_powerflow_data()
     if not data:
@@ -80,36 +81,54 @@ def control_charging():
     print(f"🔍 PV: {pv} | Grid: {grid} | Load: {load} | SOC: {soc}% | Sun: {sun_hours}h")
     try:
         if is_boost_active():
+            send_udp_message_and_receive_response("ena 1")
             print("🚀 Boost mode active – skipping control logic")
             return
         if temp_remaining> 0:
+            send_udp_message_and_receive_response("ena 1")
             print("⚡ Temporary charge mode active – skipping logic")
             charging = True
             return
 
-        charging_power = (CHARGING_CURRENT / 1000) * CHARGING_VOLTAGE * PHASES
+        charging_power = (charging_current / 1000) * CHARGING_VOLTAGE * PHASES
         if charging== True:
-            power_budget = pv + load- charging_power
+            power_budget = pv + load + charging_power
+            if power_budget > charging_power + 500:
+                charging_power = power_budget -pv- load  
+                charging_current = int((power_budget / (CHARGING_VOLTAGE * PHASES)) * 1000)
+                send_udp_message_and_receive_response("curr" + str(charging_current))
+                 
+
         else:
             power_budget = pv + load
 
+        now = time.time()
+
         if soc < 50:
-            print("🛑 SOC < 30% – disabling charging")
+            print("🛑 SOC < 50% – disabling charging")
             send_udp_message_and_receive_response("ena 0")
             charging = False
+            last_disable_time = now  # ⬅️ set cooldown
         elif soc > 50:
             if sun_hours < 16:
                 print("🛑 Not enough sun despite SOC > 50% – disabling charging")
                 send_udp_message_and_receive_response("ena 0")
                 charging = False
+                last_disable_time = now
             elif power_budget > charging_power:
-                print("✅ Enabling charging – enough PV available")
-                send_udp_message_and_receive_response("ena 1")
-                charging = True
+                # ⬇️ check cooldown period
+                if now - last_disable_time >= 10:
+                    print("✅ Enabling charging – enough PV available and cooldown passed")
+                    send_udp_message_and_receive_response("ena 1")
+                    charging = True
+                else:
+                    print(f"⏱️ Cooldown active – waiting to enable (remaining {int(10 - (now - last_disable_time))}s)")
             else:
                 print("🛑 Not enough PV – disabling charging")
                 send_udp_message_and_receive_response("ena 0")
                 charging = False
+                last_disable_time = now
+
     except Exception as e:
         print(f"❌ Error in control logic: {e}")
         send_udp_message_and_receive_response("ena 0")

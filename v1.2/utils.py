@@ -6,12 +6,27 @@ import os
 
 BOOST_FILE = "/tmp/boost_until"
 
+import traceback
+
+import os
+import json
+import time
+
+SUN_CACHE_FILE = "/tmp/sun_hours_cache.json"
+CACHE_DURATION = 3600  # 1 hour
+
 def get_sun_hours_eichstaett(threshold=120):
-    """
-    Fetches solar radiation for Eichstätt, Germany and estimates sun hours in next 48h.
-    :param threshold: Radiation threshold (W/m²) to count as sun hour
-    :return: Estimated sun hours (int)
-    """
+    now = time.time()
+    # Check cache
+    if os.path.exists(SUN_CACHE_FILE):
+        try:
+            with open(SUN_CACHE_FILE, "r") as f:
+                cache = json.load(f)
+                if now - cache["timestamp"] < CACHE_DURATION:
+                    return cache["sun_hours"]
+        except Exception as e:
+            print(f"⚠️ Cache read error: {e}")
+
     try:
         lat = 48.8885
         lon = 11.1863
@@ -27,19 +42,25 @@ def get_sun_hours_eichstaett(threshold=120):
         response.raise_for_status()
         data = response.json()
 
-        now = datetime.now()
-        end = now + timedelta(hours=48)
+        now_dt = datetime.now()
+        end = now_dt + timedelta(hours=48)
 
         sun_hours = 0
         for t_str, rad in zip(data["hourly"]["time"], data["hourly"]["shortwave_radiation"]):
             t = datetime.fromisoformat(t_str)
-            if now <= t <= end and rad is not None and rad > threshold:
+            if now_dt <= t <= end and rad is not None and rad > threshold:
                 sun_hours += 1
-    except:
-        print("⚠️ Error fetching sun hours data")
-        return 16
-    return sun_hours
 
+        # Save to cache
+        with open(SUN_CACHE_FILE, "w") as f:
+            json.dump({"timestamp": now, "sun_hours": sun_hours}, f)
+
+        return sun_hours
+
+    except Exception as e:
+        print("⚠️ Error fetching sun hours data")
+        print(e)
+        return 16
 
 
 
@@ -104,7 +125,7 @@ def push_to_influxdb(data: dict, measurement="ev_power", influx_url="http://loca
     Push Fronius data dict to InfluxDB.
     """
     # Build line protocol format
-    line = f"{measurement} pv={data.get('P_PV',0)},grid={data.get('P_Grid',0)},load={data.get('P_Load',0)},soc={data.get('SOC',0)},sun_hours={data.get('sun_hours',0)},boost_remaining={data.get('boost_remaining',0)}"
+    line = f"{measurement} pv={data.get('P_PV',0)},grid={data.get('P_Grid',0)},load={data.get('P_Load',0)},soc={data.get('SOC',0)},sun_hours={data.get('sun_hours',0)},boost_remaining={data.get('boost_remaining',0)},temp_remaining={data.get('temp_remaining',0)}"
 
     try:
         resp = requests.post(influx_url, data=line)

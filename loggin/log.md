@@ -234,7 +234,105 @@ on host forward the port
 lxc config device add haus1 nginxport80 proxy listen=tcp:0.0.0.0:80 connect=tcp:127.0.0.1:80
 ```
 
+You're right — thanks for catching that!
 
+Here's an updated and complete start_all.sh script that starts:
+
+    main.py
+
+    uvicorn boost_api
+
+    nginx
+
+    grafana
+
+    ngrok (with reserved domain)
+
+✅ Full Script: start_all.sh
+
+✅ Make it executable:
+
+chmod +x start_all.sh
+
+✅ Run it:
+
+./start_all.sh
+
+🔍 Check status:
+
+ps aux | grep python
+ps aux | grep uvicorn
+ps aux | grep ngrok
+systemctl status nginx
+systemctl status grafana-server
+
+Or watch logs live:
+
+tail -f main.log uvicorn.log ngrok.log
+
+Let me know if you want a matching stop_all.sh, or turn this into a boot-time systemd unit!
+You said:
+but this does not autostart
+ChatGPT said:
+
+You're absolutely right again — the start_all.sh script runs manually but does not autostart on boot.
+
+Let’s fix that by creating a systemd service that runs your start_all.sh automatically at container or system boot.
+✅ Step-by-Step: Autostart start_all.sh with systemd
+🧾 1. Create the service unit
+
+sudo nano /etc/systemd/system/pycontrl.service
+
+Paste this:
+
+[Unit]
+Description=Start pycontrl EV Charging System
+After=network.target grafana-server.service nginx.service
+
+[Service]
+Type=simple
+WorkingDirectory=/root/pycontrl/v1.1
+ExecStart=/bin/bash /root/pycontrl/v1.1/start_all.sh
+Restart=on-failure
+StandardOutput=append:/root/pycontrl/v1.1/systemd.log
+StandardError=append:/root/pycontrl/v1.1/systemd.err.log
+
+[Install]
+WantedBy=multi-user.target
+
+    🔁 Adjust paths if you're not in /root or if you move the script.
+
+🔓 2. Make sure your script is executable
+
+chmod +x /root/pycontrl/v1.1/start_all.sh
+
+🚀 3. Enable and start the service
+
+sudo systemctl daemon-reload
+sudo systemctl enable pycontrl.service
+sudo systemctl start pycontrl.service
+
+🧪 4. Check it worked
+
+sudo systemctl status pycontrl.service
+
+You should see something like:
+
+Active: active (running)
+
+Check logs if needed:
+
+tail -f /root/pycontrl/v1.1/systemd.log
+tail -f /root/pycontrl/v1.1/systemd.err.log
+
+✅ Done!
+
+Your entire system — Python logic, FastAPI server, NGINX, Grafana, and ngrok — now autostarts on boot.
+
+Let me know if you want a stop_all.sh script, restart logic, or ngrok health checks too.
+
+
+ChatGPT can make mistakes. Check important info. See Cookie Preferences.
 
 
 ### tried to pull data from car
