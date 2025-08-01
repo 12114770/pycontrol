@@ -9,7 +9,7 @@ echo "▶️ Starting main.py..."
 nohup python3 main.py > main.log 2>&1 &
 
 echo "▶️ Starting boost_api (uvicorn)..."
-nohup ./ctrlvenv/bin/uvicorn boost_api:app --host 0.0.0.0 --port 8090 > uvicorn.log 2>&1 &
+nohup ../ctrlvenv/bin/uvicorn boost_api:app --host 0.0.0.0 --port 8090 > uvicorn.log 2>&1 &
 
 echo "▶️ Starting nginx..."
 systemctl start nginx

@@ -1,2 +1,6 @@
-nohup: ignoring input
-nohup: failed to run command './ctrlvenv/bin/uvicorn': No such file or directory
+INFO:     Started server process [1209]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8090 (Press CTRL+C to quit)
+INFO:     79.254.120.143:0 - "POST /boost HTTP/1.0" 200 OK
+INFO:     79.254.120.143:0 - "POST /stop-boost HTTP/1.0" 200 OK

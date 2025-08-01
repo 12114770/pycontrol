@@ -24,7 +24,6 @@ def activate_boost():
     with open(BOOST_FILE, "w") as f:
         f.write(str(int(boost_until.timestamp())))
     send_udp_message_and_receive_response("curr 16000")
-    send_udp_message_and_receive_response("")
     return {"message": "Boost activated", "until": boost_until.isoformat()}
 
 
@@ -51,7 +50,7 @@ def stop_temporary_charge():
     return {"message": "Temporary charging stopped"}
 
 
-@app.post("/charge_limit/80")
+@app.post("/charge_limit-80")
 def set_charge_limit_80():
     url = f"http://{SERVER_IP}:5000/charge_control?vin={VIN}&percentage=80"
     try:
@@ -66,7 +65,7 @@ def set_charge_limit_80():
         return {"error": str(e)}
 
 
-@app.post("/charge_limit/100")
+@app.post("/charge_limit-100")
 def set_charge_limit_100():
     url = f"http://{SERVER_IP}:5000/charge_control?vin={VIN}&percentage=100"
     try:

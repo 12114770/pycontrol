@@ -1,0 +1,404 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "panels": [
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 7,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"display: flex; flex-direction: column; gap: 20px; align-items: flex-start;\">\n\n  <!-- CHARGE LIMIT Section -->\n  <div style=\"display: flex; flex-direction: column; gap: 10px; align-items: flex-start;\">\n    <button \n      style=\"font-size: 18px; padding: 12px 20px; background-color: #ffc107; color: black; border: none; border-radius: 6px; cursor: pointer;\"\n      onclick=\"fetch('/charge_limit/80', { method: 'POST' })\n        .then(res => res.json())\n        .then(data => {\n          if (data.message) {\n            alert('🔋 Limit set to 80%\\n' + data.message);\n          } else {\n            alert('❌ Error: ' + data.error);\n          }\n        })\n        .catch(err => alert('⚠️ Network error: ' + err))\">\n      🔋 Set Limit to 80%\n    </button>\n\n    <button \n      style=\"font-size: 18px; padding: 12px 20px; background-color: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;\"\n      onclick=\"fetch('/charge_limit/100', { method: 'POST' })\n        .then(res => res.json())\n        .then(data => {\n          if (data.message) {\n            alert('🔋 Limit set to 100%\\n' + data.message);\n          } else {\n            alert('❌ Error: ' + data.error);\n          }\n        })\n        .catch(err => alert('⚠️ Network error: ' + err))\">\n      💯 Set Limit to 100%\n    </button>\n  </div>\n\n</div>\n",
+        "mode": "html"
+      },
+      "pluginVersion": "12.0.2",
+      "title": "New panel",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ceqiddvuyxe68e"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 43200,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "dthms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "query": "SELECT last(\"temp_remaining\") FROM \"ev_power\"",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ],
+      "title": "Remaining normal charge time",
+      "type": "gauge"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 5,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "\n<div style=\"display: flex; flex-direction: column; gap: 10px; align-items: flex-start;\">\n\n<div style=\"display: flex; flex-direction: column; gap: 10px; align-items: flex-start;\">\n  <button \n    style=\"font-size: 18px; padding: 12px 20px; background-color: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;\"\n    onclick=\"fetch('/boost', { method: 'POST' })\n      .then(res => {\n        if (res.ok) {\n          alert('✅ Boost activated!');\n        } else {\n          alert('❌ Boost activation failed.');\n        }\n      }).catch(err => alert('⚠️ Network error: ' + err))\">\n    🚀 Boost Charging\n  </button>\n\n  <button \n    style=\"font-size: 18px; padding: 12px 20px; background-color: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;\"\n    onclick=\"fetch('/stop-boost', { method: 'POST' })\n      .then(res => {\n        if (res.ok) {\n          alert('🛑 Boost stopped!');\n        } else {\n          alert('❌ Failed to stop boost.');\n        }\n      }).catch(err => alert('⚠️ Network error: ' + err))\">\n    🛑 Stop Boost\n  </button>\n</div>\n\n<div style=\"display: flex; flex-direction: column; gap: 10px; align-items: flex-start;\">\n<button \n  style=\"font-size: 18px; padding: 12px 20px; background-color: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer;\"\n  onclick=\"fetch('/temporary-charge', { method: 'POST' })\n    .then(res => {\n      if (res.ok) {\n        alert('⏱️ Temporary charge started!');\n      } else {\n        alert('❌ Temporary charge failed.');\n      }\n    }).catch(err => alert('⚠️ Network error: ' + err))\">\n  ⚡ Charge Normally (12h)\n</button>\n\n<button \n  style=\"font-size: 18px; padding: 12px 20px; background-color: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;\"\n  onclick=\"fetch('/stop-temporary-charge', { method: 'POST' })\n    .then(res => {\n      if (res.ok) {\n        alert('⛔ Temporary charge stopped');\n      } else {\n        alert('❌ Stop failed');\n      }\n    }).catch(err => alert('⚠️ Network error: ' + err))\">\n  ⛔ Stop Temporary Charge\n</button>\n</div>\n</div>\n",
+        "mode": "html"
+      },
+      "pluginVersion": "12.0.2",
+      "title": "button",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ceqiddvuyxe68e"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ceqiddvuyxe68e"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "ev_power",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \n  mean(\"pv\")AS \"PV\",\n  mean(\"load\")* -1 AS \"Verbrauch\"\nFROM \"ev_power\"\nWHERE $timeFilter\nGROUP BY time($__interval)\nFILL(null)\n",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "grid"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "title": "PV und Verbrauch log",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ceqiddvuyxe68e"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "max": 18000,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "dthms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 4,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "query": "SELECT last(\"boost_remaining\") FROM \"ev_power\"\n",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ],
+      "title": "Remaining boost time",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ceqiddvuyxe68e"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 6010,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "watt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 24
+      },
+      "id": 2,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "query": "SELECT mean(\"pv\") FROM \"ev_power\" WHERE $timeFilter GROUP BY time($__interval) fill(null)\n",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ],
+      "title": "pv_power",
+      "type": "gauge"
+    }
+  ],
+  "preload": false,
+  "refresh": "5s",
+  "schemaVersion": 41,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Dashboard Hubert_ft",
+  "uid": "324e6688-f8a5-40d4-b14b-c5456529b016",
+  "version": 30
+}
