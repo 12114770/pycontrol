@@ -15,6 +15,12 @@ import time
 SUN_CACHE_FILE = "/tmp/sun_hours_cache.json"
 CACHE_DURATION = 3600  # 1 hour
 
+
+FRONIUS_IP = "192.168.178.33"
+KEBA_IP = "192.168.178.59"
+
+
+
 def get_sun_hours_eichstaett(threshold=120):
     now = time.time()
     # Check cache
@@ -65,7 +71,7 @@ def get_sun_hours_eichstaett(threshold=120):
 
 
 
-def send_udp_message_and_receive_response(message, ip="192.168.178.59", port=7090, timeout=2):
+def send_udp_message_and_receive_response(message, ip=KEBA_IP, port=7090, timeout=2):
     """
     Sends a UDP message and returns the response.
 
@@ -91,7 +97,7 @@ def send_udp_message_and_receive_response(message, ip="192.168.178.59", port=709
         else:
             return None
 
-def get_fronius_powerflow_data(ip="192.168.178.33"):
+def get_fronius_powerflow_data(ip=FRONIUS_IP):
     """
     Queries the Fronius inverter for real-time power flow data.
 

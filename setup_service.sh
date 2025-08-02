@@ -35,11 +35,11 @@ echo "📈 Setting up InfluxDB..."
 cp influxdb/influxdb.conf /etc/influxdb/
 systemctl restart influxdb
 
-# --- Set up Grafana dashboard
-echo "📊 Setting up Grafana..."
 mkdir -p /etc/grafana/dashboards
-cp v1.2/grafana/hubert_dashboard.json /etc/grafana/dashboards/
+mkdir -p /etc/grafana/provisioning/dashboards
 
+cp v1.2/grafana/hubert_dashboard.json /etc/grafana/dashboards/
+cp v1.2/grafana/provisioning/dashboards/dashboards.yaml /etc/grafana/provisioning/dashboards/
 systemctl restart grafana-server
 
 # --- Configure NGINX
