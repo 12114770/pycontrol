@@ -5,7 +5,7 @@ import requests
 
 from fastapi.middleware.cors import CORSMiddleware
 SERVER_IP = "localhost"
-VIN = "change this"
+VIN = "VR7EZZKXZPJ655855"
 app = FastAPI()
 
 app.add_middleware(
@@ -50,30 +50,30 @@ def stop_temporary_charge():
     return {"message": "Temporary charging stopped"}
 
 
-@app.post("/charge_limit-80")
+from fastapi.responses import JSONResponse
+
+@app.post("/charge_limit_80")
 def set_charge_limit_80():
     url = f"http://{SERVER_IP}:5000/charge_control?vin={VIN}&percentage=80"
     try:
-        r = requests.get(url)
-        return {
-            "message": "Charging limit set to 80%",
-            "response": r.text,
-            "status": r.status_code
-        }
+        r = requests.get(url, timeout=5)
+        print(f"✅ PSA response: {r.status_code} - {r.text}")
+        return JSONResponse(
+            status_code=200,
+            content={"message": "Charging limit set to 80%"}
+        )
     except Exception as e:
-        print("wrong Vin")
-        return {"error": str(e)}
+        print(f"❌ Error in /charge_limit_80: {e}")
+        return JSONResponse(status_code=500, content={"error": str(e)})
 
 
-@app.post("/charge_limit-100")
+@app.post("/charge_limit_100")
 def set_charge_limit_100():
     url = f"http://{SERVER_IP}:5000/charge_control?vin={VIN}&percentage=100"
     try:
         r = requests.get(url)
         return {
-            "message": "Charging limit set to 100%",
-            "response": r.text,
-            "status": r.status_code
+            "message": "Charging limit set to 100%"
         }
     except Exception as e:
         print("wrong Vin")

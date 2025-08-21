@@ -39,7 +39,7 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "<div style=\"display: flex; flex-direction: column; gap: 20px; align-items: flex-start;\">\n\n  <!-- CHARGE LIMIT Section -->\n  <div style=\"display: flex; flex-direction: column; gap: 10px; align-items: flex-start;\">\n    <button \n      style=\"font-size: 18px; padding: 12px 20px; background-color: #ffc107; color: black; border: none; border-radius: 6px; cursor: pointer;\"\n      onclick=\"fetch('/charge_limit/80', { method: 'POST' })\n        .then(res => res.json())\n        .then(data => {\n          if (data.message) {\n            alert('🔋 Limit set to 80%\\n' + data.message);\n          } else {\n            alert('❌ Error: ' + data.error);\n          }\n        })\n        .catch(err => alert('⚠️ Network error: ' + err))\">\n      🔋 Set Limit to 80%\n    </button>\n\n    <button \n      style=\"font-size: 18px; padding: 12px 20px; background-color: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;\"\n      onclick=\"fetch('/charge_limit/100', { method: 'POST' })\n        .then(res => res.json())\n        .then(data => {\n          if (data.message) {\n            alert('🔋 Limit set to 100%\\n' + data.message);\n          } else {\n            alert('❌ Error: ' + data.error);\n          }\n        })\n        .catch(err => alert('⚠️ Network error: ' + err))\">\n      💯 Set Limit to 100%\n    </button>\n  </div>\n\n</div>\n",
+        "content": "<div style=\"display: flex; flex-direction: column; gap: 20px; align-items: flex-start;\">\n\n  <!-- CHARGE LIMIT Section -->\n  <div style=\"display: flex; flex-direction: column; gap: 10px; align-items: flex-start;\">\n\n    <button \n      style=\"font-size: 18px; padding: 12px 20px; background-color: #ffc107; color: black; border: none; border-radius: 6px; cursor: pointer;\"\n      onclick=\"fetch('/charge_limit_80', { method: 'POST' })\n        .then(res => {\n          if (res.ok) {\n            alert('🔋 Limit set to 80%');\n          } else {\n            alert('❌ Limit change to 80% failed');\n          }\n        })\n        .catch(err => alert('⚠️ Network error: ' + err));\">\n      🔋 Set Limit to 80%\n    </button>\n\n    <button \n      style=\"font-size: 18px; padding: 12px 20px; background-color: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;\"\n      onclick=\"fetch('/charge_limit_100', { method: 'POST' })\n        .then(res => {\n          if (res.ok) {\n            alert('💯 Limit set to 100%');\n          } else {\n            alert('❌ Limit change to 100% failed');\n          }\n        })\n        .catch(err => alert('⚠️ Network error: ' + err));\">\n      💯 Set Limit to 100%\n    </button>\n\n  </div>\n</div>\n\n",
         "mode": "html"
       },
       "pluginVersion": "12.0.2",
@@ -332,21 +332,21 @@
             "mode": "thresholds"
           },
           "mappings": [],
-          "max": 6010,
+          "max": 100,
           "min": 0,
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
-                "color": "green"
+                "color": "yellow"
               },
               {
-                "color": "red",
-                "value": 80
+                "color": "green",
+                "value": 50
               }
             ]
           },
-          "unit": "watt"
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -375,30 +375,29 @@
       "pluginVersion": "12.0.2",
       "targets": [
         {
-          "query": "SELECT mean(\"pv\") FROM \"ev_power\" WHERE $timeFilter GROUP BY time($__interval) fill(null)\n",
+          "query": "SELECT mean(\"soc\") FROM \"ev_power\" WHERE $timeFilter GROUP BY time($__interval) fill(null)\n",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series"
         }
       ],
-      "title": "pv_power",
+      "title": "Battery",
       "type": "gauge"
     }
   ],
   "preload": false,
-  "refresh": "5s",
   "schemaVersion": 41,
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Dashboard Hubert_ft",
   "uid": "324e6688-f8a5-40d4-b14b-c5456529b016",
-  "version": 30
+  "version": 35
 }

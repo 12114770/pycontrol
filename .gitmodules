@@ -1,0 +1,3 @@
+[submodule "v1.2/psa_car_controller"]
+	path = v1.2/psa_car_controller
+	url = git@github.com:flobz/psa_car_controller.git

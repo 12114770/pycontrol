@@ -18,16 +18,25 @@ CHECK_INTERVAL = 1 # seconds
 boost_active_until = None
 charging = False
 charging_current = 6000  # default current in mA
+last_enable_time = 0
 
 
 def control_charging():
     
-    global boost_active_until, charging, temp_until_ts, charging_current
+    global boost_active_until, charging, temp_until_ts, charging_current, last_enable_time
 
     data = get_fronius_powerflow_data()
     if not data:
+        data = {
+            "P_PV": 0,
+            "P_Grid": 0,
+            "P_Load": 0,
+            "SOC": 0
+        }
         print("❌ No data received.")
-        return
+
+
+
     
 
     if data["P_PV"] is None:
@@ -108,26 +117,42 @@ def control_charging():
             print("🛑 SOC < 50% – disabling charging")
             send_udp_message_and_receive_response("ena 0")
             charging = False
-            last_disable_time = now  # ⬅️ set cooldown
+
         elif soc > 50:
-            if sun_hours < 16:
+            if soc > 90:
+                if power_budget > charging_power:
+                    if now - last_enable_time >= 300:
+                        print("✅ Enabling charging – enough PV available and cooldown passed")
+                        send_udp_message_and_receive_response("ena 1")
+                        charging = True
+                        last_enable_time = now
+                    else:
+                        print(f"⏱️ Cooldown active – waiting to enable (remaining {int(10 - (now - last_enable_time))}s)")
+                else:
+                    print("🛑 Not enough PV – disabling charging")
+                    send_udp_message_and_receive_response("ena 0")
+                    charging = False
+
+            elif sun_hours < 16:
                 print("🛑 Not enough sun despite SOC > 50% – disabling charging")
                 send_udp_message_and_receive_response("ena 0")
                 charging = False
-                last_disable_time = now
+
             elif power_budget > charging_power:
                 # ⬇️ check cooldown period
-                if now - last_disable_time >= 10:
+                if now - last_enable_time >= 300:
                     print("✅ Enabling charging – enough PV available and cooldown passed")
                     send_udp_message_and_receive_response("ena 1")
                     charging = True
+                    last_enable_time = now
                 else:
-                    print(f"⏱️ Cooldown active – waiting to enable (remaining {int(10 - (now - last_disable_time))}s)")
+                    print(f"⏱️ Cooldown active – waiting to enable (remaining {int(10 - (now - last_enable_time))}s)")
             else:
                 print("🛑 Not enough PV – disabling charging")
                 send_udp_message_and_receive_response("ena 0")
                 charging = False
-                last_disable_time = now
+
+
 
     except Exception as e:
         print(f"❌ Error in control logic: {e}")
@@ -139,5 +164,8 @@ def control_charging():
 if __name__ == "__main__":
     print("🟢 Starting Smart Charging Logic")
     while True:
-        control_charging()
+        try:
+            control_charging()
+        except Exception as e:
+            print(f"❌ Error in function: {e}")
         time.sleep(CHECK_INTERVAL)

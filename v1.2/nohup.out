@@ -1,0 +1,142 @@
+🟢 Starting Smart Charging Logic
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff333a18d0>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 0 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+🛑 SOC < 50% – disabling charging
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff333a2320>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 0 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+🛑 SOC < 50% – disabling charging
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff333a2c20>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 0 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+🛑 SOC < 50% – disabling charging
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff333a2ce0>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 0 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+🛑 SOC < 50% – disabling charging
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff333a2e60>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 0 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+🛑 SOC < 50% – disabling charging
+Traceback (most recent call last):
+  File "/root/pycontrl/v1.2/main.py", line 168, in <module>
+    time.sleep(CHECK_INTERVAL)
+KeyboardInterrupt
+🟢 Starting Smart Charging Logic
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff33dc18d0>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 0 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+🛑 SOC < 50% – disabling charging
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff33dc1c90>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 0 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+🛑 SOC < 50% – disabling charging
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff33dc2620>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 0 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+🛑 SOC < 50% – disabling charging
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff33dc3490>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 43197 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+⚡ Temporary charge mode active – skipping logic
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff33dc3400>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 43192 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+⚡ Temporary charge mode active – skipping logic
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff33dc2b00>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 43187 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+⚡ Temporary charge mode active – skipping logic
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff33dc1c00>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 43182 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+⚡ Temporary charge mode active – skipping logic
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff33dc3520>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 43177 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+⚡ Temporary charge mode active – skipping logic
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff33dc3cd0>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 0 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+🛑 SOC < 50% – disabling charging
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff33dc2380>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 0 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+🛑 SOC < 50% – disabling charging
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff33dc2800>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 43195 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+⚡ Temporary charge mode active – skipping logic
+Error retrieving power flow data: HTTPConnectionPool(host='192.168.178.33', port=80): Max retries exceeded with url: /solar_api/v1/GetPowerFlowRealtimeData.fcgi (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7fff33dc27d0>, 'Connection to 192.168.178.33 timed out. (connect timeout=2)'))
+❌ No data received.
+Boost remaining: 0 seconds
+Temporary charge remaining: 43199 seconds
+✅ Wrote data to InfluxDB
+🔍 PV: 0 | Grid: 0 | Load: 0 | SOC: 0% | Sun: 17h
+❌ Error in control logic: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "/root/pycontrl/v1.2/main.py", line 97, in control_charging
+    send_udp_message_and_receive_response("ena 1")
+  File "/root/pycontrl/v1.2/utils.py", line 82, in send_udp_message_and_receive_response
+    sock.bind(('', port))  # Bind to same port to receive response (optional)
+OSError: [Errno 98] Address already in use
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/pycontrl/v1.2/main.py", line 167, in <module>
+    control_charging()
+  File "/root/pycontrl/v1.2/main.py", line 159, in control_charging
+    send_udp_message_and_receive_response("ena 0")
+  File "/root/pycontrl/v1.2/utils.py", line 82, in send_udp_message_and_receive_response
+    sock.bind(('', port))  # Bind to same port to receive response (optional)
+OSError: [Errno 98] Address already in use
