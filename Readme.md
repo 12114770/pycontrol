@@ -42,4 +42,10 @@ cd v1.1 && ./start_all.sh
 
 This starts the FastAPI backend, control logic, Grafana, NGINX, and ngrok.
 
+Then you will need to copy the grafana, .json dashboard into your Grafana server on the website.
+
+If there are any questions just contact me unter lukas.sichert@student.tuwien.ac.at.
+
 ---
+
+
