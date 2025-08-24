@@ -55,7 +55,7 @@ This starts the FastAPI backend, control logic, Grafana, NGINX, and ngrok.
 
 Then you will need to copy the grafana, .json dashboard into your Grafana server on the website.
 
-If v1.2, please also follow the instruction to github.com/flobz/psa_car_controller. Which is included as a submodule.
+If v1.2, please also follow the instruction to github.com/flobz/psa_car_controller, which is included as a submodule.
 
 If there are any questions just contact me unter lukas.sichert@student.tuwien.ac.at.
 
