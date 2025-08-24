@@ -1,7 +1,12 @@
 # Smart EV Charging System
 
 This project provides a backend system for solar-aware EV charging, with Grafana visualization, FastAPI control interface, and optional vehicle API integration (PSA).
-
+<table>
+  <tr>
+    <td><img src="./screenshot_mobile.png" width="100%"></td>
+    <td><img src="./screenshot_desktop.png" width="100%"></td>
+  </tr>
+</table>
 ---
 
 ## ⚙️ First-Time Setup
