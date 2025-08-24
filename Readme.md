@@ -6,6 +6,12 @@ This project provides a backend system for solar-aware EV charging, with Grafana
 
 ## ⚙️ First-Time Setup
 
+Clone the repository with 
+
+```bash
+git clone --recurse-submodules https://github.com/12114770/pycontrol
+```
+
 Run the initial system setup script once:
 
 ```bash
@@ -43,6 +49,8 @@ cd v1.1 && ./start_all.sh
 This starts the FastAPI backend, control logic, Grafana, NGINX, and ngrok.
 
 Then you will need to copy the grafana, .json dashboard into your Grafana server on the website.
+
+If v1.2, please also follow the instruction to github.com/flobz/psa_car_controller. Which is included as a submodule.
 
 If there are any questions just contact me unter lukas.sichert@student.tuwien.ac.at.
 
